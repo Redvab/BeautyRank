@@ -137,6 +137,17 @@ class="w-16 h-16 rounded-2xl object-cover"
 <div>
 <h3 class="text-2xl font-bold">Arnoldfezt</h3>
 <p class="text-slate-400">Iq-mogger</p>
+
+<p class="text-yellow-400 mt-1">
+Votes: <span id="arnold-votes">0</span>
+</p>
+
+<button
+onclick="vote('arnold')"
+class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+Vote
+</button>
+
 </div>
 
 </div>
@@ -164,6 +175,16 @@ class="w-16 h-16 rounded-2xl object-cover"
 <div>
 <h3 class="text-2xl font-bold">Klemens</h3>
 <p class="text-slate-400">1.80m baller</p>
+
+<p class="text-yellow-400 mt-1">
+Votes: <span id="klemens-votes">0</span>
+</p>
+
+<button
+onclick="vote('klemens')"
+class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+Vote
+</button>
 </div>
 
 </div>
@@ -191,6 +212,16 @@ class="w-16 h-16 rounded-2xl object-cover"
 <div>
 <h3 class="text-2xl font-bold">Troshka</h3>
 <p class="text-slate-400">Ukranian chad</p>
+
+<p class="text-yellow-400 mt-1">
+Votes: <span id="troshka-votes">0</span>
+</p>
+
+<button
+onclick="vote('troshka')"
+class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+Vote
+</button>
 </div>
 
 </div>
@@ -218,6 +249,16 @@ class="w-16 h-16 rounded-2xl object-cover"
 <div>
 <h3 class="text-2xl font-bold">Paul</h3>
 <p class="text-slate-400">Ready for the summer</p>
+
+<p class="text-yellow-400 mt-1">
+Votes: <span id="paul-votes">0</span>
+</p>
+
+<button
+onclick="vote('paul')"
+class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+Vote
+</button>
 </div>
 
 </div>
@@ -245,6 +286,16 @@ class="w-16 h-16 rounded-2xl object-cover"
 <div>
 <h3 class="text-2xl font-bold">Mahir</h3>
 <p class="text-slate-400">Bosnischer duke dennis</p>
+
+<p class="text-yellow-400 mt-1">
+Votes: <span id="mahir-votes">0</span>
+</p>
+
+<button
+onclick="vote('mahir')"
+class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+Vote
+</button>
 </div>
 
 </div>
@@ -271,6 +322,16 @@ class="w-16 h-16 rounded-2xl object-cover"
         <div>
             <h3 class="text-2xl font-bold">Samenöl Sulek</h3>
             <p class="text-slate-400">Ego lifter</p>
+
+            <p class="text-yellow-400 mt-1">
+                Votes: <span id="alex-votes">0</span>
+            </p>
+
+            <button
+                onclick="vote('alex')"
+                class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+                Vote
+            </button>
         </div>
 
     </div>
@@ -294,6 +355,16 @@ class="w-16 h-16 rounded-2xl object-cover"
 <div>
 <h3 class="text-2xl font-bold">Nick</h3>
 <p class="text-slate-400">The Jester</p>
+
+<p class="text-yellow-400 mt-1">
+Votes: <span id="nick-votes">0</span>
+</p>
+
+<button
+onclick="vote('nick')"
+class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
+Vote
+</button>
 </div>
 
 </div>
@@ -383,6 +454,68 @@ class="w-16 h-16 rounded-2xl object-cover"
 <footer class="border-t border-slate-800 py-8 text-center text-slate-500">
 © 2025 BeautyRank. All rights reserved.
 </footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBVGRiExIRh93S2wdE7btz_S7DhEC2ntmc",
+  authDomain: "beautyrank-1e79a.firebaseapp.com",
+  databaseURL: "https://beautyrank-1e79a-default-rtdb.firebaseio.com",
+  projectId: "beautyrank-1e79a",
+  storageBucket: "beautyrank-1e79a.firebasestorage.app",
+  messagingSenderId: "355703953823",
+  appId: "1:355703953823:web:4b2264933de9e57ee745aa",
+  measurementId: "G-MKL6PRP5ZQ"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+window.vote = async function(name) {
+
+  const voteRef = ref(db, "votes/" + name);
+  const snapshot = await get(voteRef);
+
+  let votes = 0;
+
+  if(snapshot.exists()){
+    votes = snapshot.val();
+  }
+
+  votes++;
+
+  await set(voteRef, votes);
+
+  document.getElementById(name + "-votes").innerText = votes;
+}
+
+async function loadVotes(name){
+
+  const snapshot = await get(ref(db, "votes/" + name));
+
+  if(snapshot.exists()){
+    document.getElementById(name + "-votes").innerText =
+    snapshot.val();
+  }
+}
+
+loadVotes("arnold");
+loadVotes("klemens");
+loadVotes("troshka");
+loadVotes("paul");
+loadVotes("mahir");
+loadVotes("alex");
+loadVotes("nick");
+loadVotes("noah");
+loadVotes("david");
+loadVotes("luka");
+
+</script>
 </body>
 </html>
