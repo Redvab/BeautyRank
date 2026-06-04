@@ -36,7 +36,7 @@ body {
 
 <main class="max-w-7xl mx-auto px-6 py-10">
     <h2 class="text-3xl font-bold mb-2">Select Figures to Vote On</h2>
-    <p class="text-slate-400 mb-8">Вы можете оценить каждого участника один раз в 24 часа.</p>
+    <p class="text-slate-400 mb-8">You can rate each participant once every 24 hours.</p>
 
     <div id="voting-focus-box" class="hidden mb-10 p-6 bg-slate-900/80 border border-slate-800 rounded-3xl max-w-3xl mx-auto">
         <div class="flex items-center gap-4 mb-6">
@@ -229,7 +229,7 @@ window.submitVote = async function() {
       const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
       const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       
-      alert(`Вы уже голосовали за этого участника! Повторное голосование будет доступно через ${hoursLeft}ч ${minutesLeft}м.`);
+      alert(`You have already voted for this participant! You can vote again in ${hoursLeft}h ${minutesLeft}min.`);
       return;
     }
   }
