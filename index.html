@@ -36,18 +36,16 @@ body{
 
 <body class="text-white min-h-screen">
 
-<!-- NAVBAR -->
 <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
 <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
 <div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-yellow-500"></div>
 <h1 class="text-2xl font-bold">BeautyRank</h1>
 </div>
 
 <div class="hidden md:flex gap-8 text-slate-300">
 <a href="#" class="hover:text-white">Rankings</a>
-<a href="#" class="hover:text-white">Vote</a>
+<a href="vote.html" class="hover:text-white">Vote</a>
 <a href="#" class="hover:text-white">Battle</a>
 <a href="news.html" class="hover:text-white">News</a>
 <a href="#" class="hover:text-white">Community</a>
@@ -62,406 +60,92 @@ Become VIP
 </div>
 </nav>
 
-<!-- HERO -->
 <section class="max-w-7xl mx-auto px-6 py-12">
-<!-- BREAKING NEWS -->
 <div class="mb-12">
-
     <div class="bg-gradient-to-r from-red-900/60 to-slate-900 border border-red-800 rounded-3xl overflow-hidden">
-
-        <!-- Header -->
         <div class="text-center py-6 bg-black/30">
             <div class="text-red-400 font-bold tracking-widest mb-2">
                 🚨 BREAKING NEWS 🚨
             </div>
-
             <h2 class="text-3xl font-bold">
                 KLEMENS GOT REVANGE AND MOGGED ARNOLDFEZT
             </h2>
         </div>
 
-        <!-- Image -->
-        <img
-            src="revange.jpg"
-            alt="Breaking News"
-            class="w-full object-cover max-h-[500px]"
-        >
+        <img src="revange.jpg" alt="Breaking News" class="w-full object-cover max-h-[500px]">
 
-        <!-- Content -->
         <div class="p-8 text-center">
-
             <p class="text-2xl font-bold mb-4">
-                After this brutaly mog Klemens gets ranked 
-                to TOP 2 chad
+                After this brutaly mog Klemens gets ranked to TOP 2 chad
             </p>
-
             <p class="text-slate-300 mb-8">
-                Screenshots, recordings and evidence included.
-                Read the full story now.
+                Screenshots, recordings and evidence included. Read the full story now.
             </p>
         </div>
-
     </div>
-
 </div>
+
 <div class="flex items-center gap-3 mb-8">
 🏆
 <h2 class="text-4xl font-bold">
 Top Most Attractive People
 </h2>
 </div>
-
-
-
 </section>
 
-<!-- RANKING -->
+<section class="max-w-5xl mx-auto px-6 mb-12">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+        <h2 class="text-3xl font-bold mb-6">Register Account</h2>
+        
+        <div class="flex flex-col md:flex-row gap-6 mb-6 items-center">
+            <div class="flex flex-col items-center gap-3">
+                <div id="avatar-preview" class="w-24 h-24 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 font-medium text-sm overflow-hidden">
+                    No Image
+                </div>
+                <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm font-semibold transition">
+                    Choose Avatar
+                    <input id="avatar-input" type="file" accept="image/*" class="hidden" onchange="previewAvatar()">
+                </label>
+            </div>
+            
+            <div class="flex-1 w-full">
+                <input id="username" type="text" placeholder="Username" class="w-full p-4 rounded-xl bg-slate-800 text-white mb-4 border border-slate-800 focus:border-slate-700 outline-none">
+                <input id="email" type="email" placeholder="Email" class="w-full p-4 rounded-xl bg-slate-800 text-white mb-4 border border-slate-800 focus:border-slate-700 outline-none">
+                <input id="password" type="password" placeholder="Password" class="w-full p-4 rounded-xl bg-slate-800 text-white border border-slate-800 focus:border-slate-700 outline-none">
+            </div>
+        </div>
+
+        <button onclick="register()" class="w-full md:w-auto bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-8 py-3 rounded-xl transition">
+            Register
+        </button>
+    </div>
+</section>
+
 <section class="max-w-5xl mx-auto px-6 pb-20">
-
-<div class="space-y-5">
-
-<!-- #1 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="gold w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl">
-1
-</div>
-
-<img
-src="arnold.jpg"
-class="w-16 h-16 rounded-2xl object-cover"
-/>
-
-<div>
-<h3 class="text-2xl font-bold">Arnoldfezt</h3>
-<p class="text-slate-400">Iq-mogger</p>
-
-<p class="text-yellow-400 mt-1">
-Votes: <span id="arnold-votes">0</span>
-</p>
-
-<button
-onclick="vote('arnold')"
-class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-Vote
-</button>
-
-</div>
-
-</div>
-
-<div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold">
-▲ +2
-</div>
-
-</div>
-
-<!-- #2 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="silver w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl">
-2
-</div>
-
-<img
-src="klemens.jpg"
-class="w-16 h-16 rounded-2xl object-cover"
-/>
-
-<div>
-<h3 class="text-2xl font-bold">Klemens</h3>
-<p class="text-slate-400">1.80m baller</p>
-
-<p class="text-yellow-400 mt-1">
-Votes: <span id="klemens-votes">0</span>
-</p>
-
-<button
-onclick="vote('klemens')"
-class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-Vote
-</button>
-</div>
-
-</div>
-
-<div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold">
-▲ +3
-</div>
-
-</div>
-
-<!-- #3 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="bronze w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">
-3
-</div>
-
-<img
-src="troshka.jpg"
-class="w-16 h-16 rounded-2xl object-cover"
-/>
-
-<div>
-<h3 class="text-2xl font-bold">Troshka</h3>
-<p class="text-slate-400">Ukranian chad</p>
-
-<p class="text-yellow-400 mt-1">
-Votes: <span id="troshka-votes">0</span>
-</p>
-
-<button
-onclick="vote('troshka')"
-class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-Vote
-</button>
-</div>
-
-</div>
-
-<div class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full font-bold">
-▼ -2
-</div>
-
-</div>
-
-<!-- #4 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-4
-</div>
-
-<img
-src="paul.jpg"
-class="w-16 h-16 rounded-2xl object-cover"
-/>
-
-<div>
-<h3 class="text-2xl font-bold">Paul</h3>
-<p class="text-slate-400">Ready for the summer</p>
-
-<p class="text-yellow-400 mt-1">
-Votes: <span id="paul-votes">0</span>
-</p>
-
-<button
-onclick="vote('paul')"
-class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-Vote
-</button>
-</div>
-
-</div>
-
-<div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold">
-▲ +3
-</div>
-
-</div>
-
-<!-- #5 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-5
-</div>
-
-<img
-src="mahir.jpg"
-class="w-16 h-16 rounded-2xl object-cover"
-/>
-
-<div>
-<h3 class="text-2xl font-bold">Mahir</h3>
-<p class="text-slate-400">Bosnischer duke dennis</p>
-
-<p class="text-yellow-400 mt-1">
-Votes: <span id="mahir-votes">0</span>
-</p>
-
-<button
-onclick="vote('mahir')"
-class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-Vote
-</button>
-</div>
-
-</div>
-
-<div class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full font-bold">
-▼ -2
-</div>
-
-</div>
-<!-- #6 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-    <div class="flex items-center gap-5">
-
-        <div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-            6
-        </div>
-
-        <img
-            src="alex.jpg"
-            class="w-16 h-16 rounded-2xl object-cover"
-        />
-
-        <div>
-            <h3 class="text-2xl font-bold">Samenöl Sulek</h3>
-            <p class="text-slate-400">Ego lifter</p>
-
-            <p class="text-yellow-400 mt-1">
-                Votes: <span id="alex-votes">0</span>
-            </p>
-
-            <button
-                onclick="vote('alex')"
-                class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-                Vote
-            </button>
-        </div>
-
+    <div id="ranking-container" class="space-y-5">
+        <p class="text-slate-400 text-center py-10">Loading leaderboards...</p>
     </div>
-
-    <div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold">
-        ▲ +4
-    </div>
-
-</div>
-<!-- #7 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-7
-</div>
-
-<img src="nick.jpg" class="w-16 h-16 rounded-2xl object-cover"/>
-
-<div>
-<h3 class="text-2xl font-bold">Nick</h3>
-<p class="text-slate-400">The Jester</p>
-
-<p class="text-yellow-400 mt-1">
-Votes: <span id="nick-votes">0</span>
-</p>
-
-<button
-onclick="vote('nick')"
-class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold">
-Vote
-</button>
-</div>
-
-</div>
-
-<div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold">
-▲ +3
-</div>
-
-</div>
-
-<!-- #8 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-8
-</div>
-
-<img src="bilder/person8.jpg" class="w-16 h-16 rounded-2xl object-cover"/>
-
-<div>
-<h3 class="text-2xl font-bold">Noah</h3>
-<p class="text-slate-400">Gym warrior</p>
-</div>
-
-</div>
-
-<div class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full font-bold">
-▼ -1
-</div>
-
-</div>
-
-<!-- #9 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-9
-</div>
-
-<img src="bilder/person9.jpg" class="w-16 h-16 rounded-2xl object-cover"/>
-
-<div>
-<h3 class="text-2xl font-bold">David</h3>
-<p class="text-slate-400">Upcoming contender</p>
-</div>
-
-</div>
-
-<div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold">
-▲ +2
-</div>
-
-</div>
-
-<!-- #10 -->
-<div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-
-<div class="flex items-center gap-5">
-
-<div class="w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl">
-10
-</div>
-
-<img src="bilder/person10.jpg" class="w-16 h-16 rounded-2xl object-cover"/>
-
-<div>
-<h3 class="text-2xl font-bold">Luka</h3>
-<p class="text-slate-400">Community favorite</p>
-</div>
-
-</div>
-
-<div class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full font-bold">
-▼ -3
-</div>
-
-</div>
-
-</div>
-
 </section>
-<!-- FOOTER -->
+
 <footer class="border-t border-slate-800 py-8 text-center text-slate-500">
 © 2025 BeautyRank. All rights reserved.
 </footer>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   get,
-  set
+  set,
+  query,
+  orderByChild
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBVGRiExIRh93S2wdE7btz_S7DhEC2ntmc",
@@ -476,46 +160,148 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
 
-window.vote = async function(name) {
+// Глобальная переменная для хранения Base64 строки изображения
+let base64Avatar = "";
 
-  const voteRef = ref(db, "votes/" + name);
-  const snapshot = await get(voteRef);
+// ФУНКЦИЯ ПРЕДПРОСМОТРА И КОНВЕРТАЦИИ КАРТИНКИ
+window.previewAvatar = function() {
+  const file = document.getElementById("avatar-input").files[0];
+  const preview = document.getElementById("avatar-preview");
 
-  let votes = 0;
-
-  if(snapshot.exists()){
-    votes = snapshot.val();
-  }
-
-  votes++;
-
-  await set(voteRef, votes);
-
-  document.getElementById(name + "-votes").innerText = votes;
-}
-
-async function loadVotes(name){
-
-  const snapshot = await get(ref(db, "votes/" + name));
-
-  if(snapshot.exists()){
-    document.getElementById(name + "-votes").innerText =
-    snapshot.val();
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      base64Avatar = e.target.result; // Сохраняем строку в переменную
+      preview.innerHTML = `<img src="${base64Avatar}" class="w-full h-full object-cover">`;
+    }
+    reader.readAsDataURL(file);
   }
 }
 
-loadVotes("arnold");
-loadVotes("klemens");
-loadVotes("troshka");
-loadVotes("paul");
-loadVotes("mahir");
-loadVotes("alex");
-loadVotes("nick");
-loadVotes("noah");
-loadVotes("david");
-loadVotes("luka");
+// ФУНКЦИЯ РЕГИСТРАЦИИ И ГЕНЕРАЦИИ РЕЙТИНГА
+window.register = async function() {
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
+  if(!username) {
+    alert("Please enter a username!");
+    return;
+  }
+
+  try {
+    // 1. Создаем пользователя в Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // 2. Генерируем рандомный рейтинг от 1 до 100
+    const randomScore = Math.floor(Math.random() * 100) + 1;
+
+    // 3. Сохраняем данные нового игрока (включая аватарку) в Realtime Database
+    await set(ref(db, "users/" + user.uid), {
+      username: username,
+      score: randomScore,
+      votes: 0,
+      avatar: base64Avatar // Записывается либо строка с фото, либо пустое поле
+    });
+
+    alert(`Account created successfully! Your starting Beauty Score is: ${randomScore}`);
+    
+    // Очищаем форму
+    document.getElementById("username").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("avatar-input").value = "";
+    document.getElementById("avatar-preview").innerHTML = "No Image";
+    base64Avatar = "";
+    
+    loadTopUsers();
+
+  } catch(error) {
+    alert(error.message);
+  }
+}
+
+// ФУНКЦИЯ ГОЛОСОВАНИЯ С ОБНОВЛЕНИЕМ В БАЗЕ ДАННЫХ
+
+// Изменяем функцию голосования на главной странице
+window.vote = function(userId) {
+  // Просто перенаправляем пользователя на страницу vote.html
+  window.location.href = "vote.html";
+}
+
+
+// ДИНАМИЧЕСКАЯ ЗАГРУЗКА ТОП-100 ПОЛЬЗОВАТЕЛЕЙ
+async function loadTopUsers() {
+  const container = document.getElementById("ranking-container");
+  
+  const usersRef = query(ref(db, "users"), orderByChild("score"));
+  const snapshot = await get(usersRef);
+
+  if (!snapshot.exists()) {
+    container.innerHTML = `<p class="text-slate-400 text-center py-10">No users registered yet. Be the first!</p>`;
+    return;
+  }
+
+  let usersList = [];
+  snapshot.forEach((childSnapshot) => {
+    usersList.push({
+      id: childSnapshot.key,
+      ...childSnapshot.val()
+    });
+  });
+
+  usersList.reverse();
+  const top100 = usersList.slice(0, 100);
+  container.innerHTML = "";
+
+  top100.forEach((user, index) => {
+    const rank = index + 1;
+    
+    let rankClass = "w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl";
+    if (rank === 1) rankClass = "gold w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl";
+    if (rank === 2) rankClass = "silver w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl";
+    if (rank === 3) rankClass = "bronze w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-2xl";
+
+    // Обработка аватарки: если пользователь её загрузил — показываем, если нет — ставим заглушку с буквами
+    let avatarHtml = "";
+    if (user.avatar) {
+        avatarHtml = `<img src="${user.avatar}" class="w-16 h-16 rounded-2xl object-cover border border-slate-700" alt="avatar" />`;
+    } else {
+        avatarHtml = `
+          <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-2xl font-bold uppercase text-yellow-500 border border-slate-700">
+            ${user.username.substring(0, 2)}
+          </div>
+        `;
+    }
+
+    const cardHtml = `
+      <div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
+        <div class="flex items-center gap-5">
+          <div class="${rankClass}">${rank}</div>
+          ${avatarHtml}
+          <div>
+            <h3 class="text-2xl font-bold">${user.username}</h3>
+            <p class="text-slate-400">Score: <span class="text-emerald-400 font-semibold">${user.score}</span></p>
+            <p class="text-yellow-400 text-sm mt-1">Votes: <span>${user.votes || 0}</span></p>
+            <button onclick="vote('${user.id}')" class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold text-sm">
+              Vote
+            </button>
+          </div>
+        </div>
+        <div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold text-sm">
+          ★ New
+        </div>
+      </div>
+    `;
+    
+    container.innerHTML += cardHtml;
+  });
+}
+
+loadTopUsers();
 </script>
 </body>
 </html>
