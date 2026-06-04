@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeautyRank - Vote</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body {
+    background: radial-gradient(circle at top, #0f172a 0%, #020617 60%);
+}
+.user-card-selected {
+    border-color: #fbbf24 !important;
+    background-color: rgba(30, 41, 59, 0.9) !important;
+}
+</style>
+</head>
+<body class="text-white min-h-screen">
+
+<nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-yellow-500"></div>
+        <h1 class="text-2xl font-bold">BeautyRank</h1>
+    </div>
+    <div class="hidden md:flex gap-8 text-slate-300">
+        <a href="index.html" class="hover:text-white">Rankings</a>
+        <a href="vote.html" class="text-yellow-500 font-semibold">Vote</a>
+        <a href="#" class="hover:text-white">Battle</a>
+        <a href="news.html" class="hover:text-white">News</a>
+        <a href="#" class="hover:text-white">Community</a>
+    </div>
+    <div id="auth-status" class="text-sm text-slate-400">Checking auth...</div>
+</div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-6 py-10">
+    <h2 class="text-3xl font-bold mb-2">Select Figures to Vote On</h2>
+    <p class="text-slate-400 mb-8">Вы можете оценить каждого участника один раз в 24 часа.</p>
+
+    <div id="voting-focus-box" class="hidden mb-10 p-6 bg-slate-900/80 border border-slate-800 rounded-3xl max-w-3xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <div id="focus-avatar" class="w-16 h-16 rounded-2xl bg-slate-800 overflow-hidden"></div>
+            <div>
+                <h3 id="focus-name" class="text-2xl font-bold">-</h3>
+                <p id="focus-rank" class="text-sm text-slate-400">Select a card below</p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+            <button onclick="setVoteType('up')" id="btn-up" class="py-4 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 font-bold transition flex flex-col items-center justify-center gap-1">
+                <span>⭐ Rising Star</span>
+                <span class="text-xs text-emerald-400 font-normal">Adds +5 Score</span>
+            </button>
+            <button onclick="setVoteType('down')" id="btn-down" class="py-4 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 font-bold transition flex flex-col items-center justify-center gap-1">
+                <span>📉 Overrated</span>
+                <span class="text-xs text-red-400 font-normal">Removes -5 Score</span>
+            </button>
+        </div>
+
+        <button onclick="submitVote()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 rounded-xl transition">
+            Submit Vote
+        </button>
+    </div>
+
+    <div id="vote-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  query,
+  orderByChild
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBVGRiExIRh93S2wdE7btz_S7DhEC2ntmc",
+  authDomain: "beautyrank-1e79a.firebaseapp.com",
+  databaseURL: "https://beautyrank-1e79a-default-rtdb.firebaseio.com",
+  projectId: "beautyrank-1e79a",
+  storageBucket: "beautyrank-1e79a.firebasestorage.app",
+  messagingSenderId: "355703953823",
+  appId: "1:355703953823:web:4b2264933de9e57ee745aa",
+  measurementId: "G-MKL6PRP5ZQ"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+let currentUser = null;
+let selectedUserId = null;
+let selectedVoteType = null; // 'up' или 'down'
+let globalUsersData = {};
+
+// 1. ПРОВЕРКА АВТОРИЗАЦИИ
+onAuthStateChanged(auth, (user) => {
+  const authStatus = document.getElementById("auth-status");
+  if (user) {
+    currentUser = user;
+    authStatus.innerText = `Logged in as: ${user.email}`;
+    loadGridUsers();
+  } else {
+    currentUser = null;
+    authStatus.innerHTML = `<span class="text-red-400">Sign in on Home page to vote!</span>`;
+    document.getElementById("vote-grid").innerHTML = `<p class="text-slate-400 col-span-full text-center py-10">Please register or log in on the main page to view and vote.</p>`;
+  }
+});
+
+// 2. ЗАГРУЗКА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ ДЛЯ СЕТКИ
+async function loadGridUsers() {
+  const grid = document.getElementById("vote-grid");
+  const usersRef = query(ref(db, "users"), orderByChild("score"));
+  const snapshot = await get(usersRef);
+
+  if (!snapshot.exists()) {
+    grid.innerHTML = `<p class="text-slate-400 col-span-full text-center">No candidates found.</p>`;
+    return;
+  }
+
+  let usersList = [];
+  snapshot.forEach((childSnapshot) => {
+    usersList.push({ id: childSnapshot.key, ...childSnapshot.val() });
+  });
+  usersList.reverse(); // От высшего к низшему
+
+  grid.innerHTML = "";
+  globalUsersData = {};
+
+  usersList.forEach((user, index) => {
+    globalUsersData[user.id] = { ...user, rank: index + 1 };
+    
+    let avatarElement = user.avatar 
+      ? `<img src="${user.avatar}" class="w-14 h-14 rounded-xl object-cover mx-auto mb-2 border border-slate-700">`
+      : `<div class="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl font-bold text-yellow-500 uppercase mx-auto mb-2">${user.username.substring(0,2)}</div>`;
+
+    const card = document.createElement("div");
+    card.id = `card-${user.id}`;
+    card.className = "bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 text-center cursor-pointer hover:border-slate-700 transition relative";
+    card.onclick = () => selectUserForVoting(user.id);
+    
+    card.innerHTML = `
+        <div class="absolute top-2 left-2 text-xs font-bold text-slate-500">#${index + 1}</div>
+        ${avatarElement}
+        <div class="font-bold truncate text-sm">${user.username}</div>
+        <div class="text-xs text-slate-400 mt-1">Score: ${user.score}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// 3. ВЫБОР КАРТОЧКИ ИЗ СЕТКИ
+window.selectUserForVoting = function(userId) {
+  // Снимаем выделение со старой карточки
+  if (selectedUserId) {
+    const oldCard = document.getElementById(`card-${selectedUserId}`);
+    if (oldCard) oldCard.classList.remove("user-card-selected");
+  }
+
+  selectedUserId = userId;
+  selectedVoteType = null;
+  
+  // Визуально выделяем новую
+  document.getElementById(`card-${userId}`).classList.add("user-card-selected");
+
+  // Обновляем верхнее окно фокуса
+  const targetUser = globalUsersData[userId];
+  const focusBox = document.getElementById("voting-focus-box");
+  focusBox.classList.remove("hidden");
+
+  document.getElementById("focus-name").innerText = targetUser.username;
+  document.getElementById("focus-rank").innerText = `Rank #${targetUser.rank} • Current Score: ${targetUser.score}`;
+  
+  document.getElementById("focus-avatar").innerHTML = targetUser.avatar
+    ? `<img src="${targetUser.avatar}" class="w-full h-full object-cover">`
+    : `<div class="w-full h-full flex items-center justify-center bg-slate-800 text-yellow-500 font-bold text-xl uppercase">${targetUser.username.substring(0,2)}</div>`;
+
+  // Сбрасываем стили кнопок выбора
+  document.getElementById("btn-up").className = document.getElementById("btn-up").className.replace(" border-yellow-500 bg-slate-800", " border-slate-700 bg-slate-800/50");
+  document.getElementById("btn-down").className = document.getElementById("btn-down").className.replace(" border-yellow-500 bg-slate-800", " border-slate-700 bg-slate-800/50");
+}
+
+// 4. ВЫБОР ТИПА ГОЛОСА (RISING STAR / OVERRATED)
+window.setVoteType = function(type) {
+  selectedVoteType = type;
+  const btnUp = document.getElementById("btn-up");
+  const btnDown = document.getElementById("btn-down");
+
+  if(type === 'up') {
+    btnUp.className = btnUp.className.replace("border-slate-700 bg-slate-800/50", "border-yellow-500 bg-slate-800");
+    btnDown.className = btnDown.className.replace("border-yellow-500 bg-slate-800", "border-slate-700 bg-slate-800/50");
+  } else {
+    btnDown.className = btnDown.className.replace("border-slate-700 bg-slate-800/50", "border-yellow-500 bg-slate-800");
+    btnUp.className = btnUp.className.replace("border-yellow-500 bg-slate-800", "border-slate-700 bg-slate-800/50");
+  }
+}
+
+// 5. ОТПРАВКА ГОЛОСА С ПРОВЕРКОЙ НА 24 ЧАСА
+window.submitVote = async function() {
+  if (!currentUser) return;
+  if (!selectedUserId) { alert("Please select a figure first!"); return; }
+  if (!selectedVoteType) { alert("Please choose Rising Star or Overrated!"); return; }
+
+  const now = Date.now();
+  const dayInMs = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+
+  // Путь к истории личных голосов текущего авторизованного пользователя за этого кандидата
+  const userCooldownRef = ref(db, `cooldowns/${currentUser.uid}/${selectedUserId}`);
+  
+  // Проверяем, голосовал ли уже этот пользователь за выбранного кандидата
+  const cooldownSnapshot = await get(userCooldownRef);
+
+  if (cooldownSnapshot.exists()) {
+    const lastVoteTime = cooldownSnapshot.val();
+    const timePassed = now - lastVoteTime;
+
+    if (timePassed < dayInMs) {
+      const timeLeft = dayInMs - timePassed;
+      const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+      const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      
+      alert(`Вы уже голосовали за этого участника! Повторное голосование будет доступно через ${hoursLeft}ч ${minutesLeft}м.`);
+      return;
+    }
+  }
+
+  // Если проверка пройдена — обновляем данные кандидата
+  const candidateScoreRef = ref(db, `users/${selectedUserId}/score`);
+  const candidateVotesRef = ref(db, `users/${selectedUserId}/votes`);
+
+  const currentScore = globalUsersData[selectedUserId].score || 0;
+  const currentVotes = globalUsersData[selectedUserId].votes || 0;
+
+  const scoreChange = selectedVoteType === 'up' ? 5 : -5;
+
+  // Записываем новые значения в профиль кандидата
+  await set(candidateScoreRef, currentScore + scoreChange);
+  await set(candidateVotesRef, currentVotes + 1);
+
+  // Обновляем временную метку (cooldown) для голосующего
+  await set(userCooldownRef, now);
+
+  alert("Your vote has been submitted successfully!");
+  
+  // Скрываем фокус-бокс и перезагружаем сетку
+  document.getElementById("voting-focus-box").classList.add("hidden");
+  selectedUserId = null;
+  selectedVoteType = null;
+  loadGridUsers();
+}
+</script>
+</body>
+</html>
