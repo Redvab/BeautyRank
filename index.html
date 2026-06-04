@@ -144,7 +144,8 @@ import {
 
 import {
   getAuth,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -162,10 +163,19 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Глобальная переменная для хранения Base64 строки изображения
 let base64Avatar = "";
 
-// ФУНКЦИЯ ПРЕДПРОСМОТРА И КОНВЕРТАЦИИ КАРТИНКИ
+// 🔄 ОТСЛЕЖИВАНИЕ СЕССИИ ПОЛЬЗОВАТЕЛЯ (Не дает выйти при обновлении)
+onAuthStateChanged(auth, (user) => {
+  const registerSection = document.querySelector('section class*="mb-12"'); // Секция регистрации
+  if (user) {
+    console.log("Пользователь уже авторизован:", user.email);
+    // Опционально: здесь можно скрыть форму регистрации, если пользователь уже вошел
+  } else {
+    console.log("Пользователь не авторизован");
+  }
+});
+
 window.previewAvatar = function() {
   const file = document.getElementById("avatar-input").files[0];
   const preview = document.getElementById("avatar-preview");
@@ -173,14 +183,13 @@ window.previewAvatar = function() {
   if (file) {
     const reader = new FileReader();
     reader.onload = function(e) {
-      base64Avatar = e.target.result; // Сохраняем строку в переменную
+      base64Avatar = e.target.result;
       preview.innerHTML = `<img src="${base64Avatar}" class="w-full h-full object-cover">`;
     }
     reader.readAsDataURL(file);
   }
 }
 
-// ФУНКЦИЯ РЕГИСТРАЦИИ И ГЕНЕРАЦИИ РЕЙТИНГА
 window.register = async function() {
   const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value;
@@ -192,24 +201,20 @@ window.register = async function() {
   }
 
   try {
-    // 1. Создаем пользователя в Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // 2. Генерируем рандомный рейтинг от 1 до 100
     const randomScore = Math.floor(Math.random() * 100) + 1;
 
-    // 3. Сохраняем данные нового игрока (включая аватарку) в Realtime Database
     await set(ref(db, "users/" + user.uid), {
       username: username,
       score: randomScore,
       votes: 0,
-      avatar: base64Avatar // Записывается либо строка с фото, либо пустое поле
+      avatar: base64Avatar
     });
 
     alert(`Account created successfully! Your starting Beauty Score is: ${randomScore}`);
     
-    // Очищаем форму
     document.getElementById("username").value = "";
     document.getElementById("email").value = "";
     document.getElementById("password").value = "";
@@ -224,16 +229,11 @@ window.register = async function() {
   }
 }
 
-// ФУНКЦИЯ ГОЛОСОВАНИЯ С ОБНОВЛЕНИЕМ В БАЗЕ ДАННЫХ
-
-// Изменяем функцию голосования на главной странице
+// Перенаправление на страницу голосования
 window.vote = function(userId) {
-  // Просто перенаправляем пользователя на страницу vote.html
   window.location.href = "vote.html";
 }
 
-
-// ДИНАМИЧЕСКАЯ ЗАГРУЗКА ТОП-100 ПОЛЬЗОВАТЕЛЕЙ
 async function loadTopUsers() {
   const container = document.getElementById("ranking-container");
   
@@ -265,7 +265,6 @@ async function loadTopUsers() {
     if (rank === 2) rankClass = "silver w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl";
     if (rank === 3) rankClass = "bronze w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-2xl";
 
-    // Обработка аватарки: если пользователь её загрузил — показываем, если нет — ставим заглушку с буквами
     let avatarHtml = "";
     if (user.avatar) {
         avatarHtml = `<img src="${user.avatar}" class="w-16 h-16 rounded-2xl object-cover border border-slate-700" alt="avatar" />`;
