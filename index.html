@@ -1,152 +1,287 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BeautyRank</title>
+<title>BeautyRank — Winter Arc Edition</title>
 
+<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-body{
-    background: radial-gradient(circle at top, #0f172a 0%, #020617 60%);
-}
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-.glass{
-    backdrop-filter: blur(10px);
-}
+  body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0%, #020617 75%);
+      min-height: 100vh;
+  }
 
-.rank-card:hover{
-    transform: translateY(-2px);
-}
+  /* Custom Glows & Metal Rank Gradients */
+  .gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  }
 
-.gold{
-    background: linear-gradient(135deg,#fbbf24,#f59e0b);
-}
+  .silver {
+      background: linear-gradient(135deg, #e2e8f0 0%, #64748b 100%);
+      box-shadow: 0 0 15px rgba(226, 232, 240, 0.3);
+  }
 
-.silver{
-    background: linear-gradient(135deg,#cbd5e1,#94a3b8);
-}
+  .bronze {
+      background: linear-gradient(135deg, #fdba74 0%, #c2410c 100%);
+      box-shadow: 0 0 15px rgba(253, 186, 116, 0.3);
+  }
 
-.bronze{
-    background: linear-gradient(135deg,#fb923c,#c2410c);
-}
+  .winter-glow {
+      box-shadow: 0 0 40px -5px rgba(6, 182, 212, 0.25);
+  }
+
+  .rank-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .rank-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(6, 182, 212, 0.4);
+  }
+
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+      width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+      background: #020617;
+  }
+  ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+  }
 </style>
 </head>
 
-<body class="text-white min-h-screen">
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-<nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
-<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<nav class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
 
-<div class="flex items-center gap-3">
-<h1 class="text-2xl font-bold">BeautyRank</h1>
-</div>
+    <!-- Brand Logo -->
+    <a href="#" class="flex items-center gap-2.5 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition">
+        ⚡
+      </div>
+      <span class="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+        BeautyRank
+      </span>
+    </a>
 
-<div class="hidden md:flex gap-8 text-slate-300">
-<a href="#" class="hover:text-white">Rankings</a>
-<a href="vote.html" class="hover:text-white">Vote</a>
-<a href="#" class="hover:text-white">Battle</a>
-<a href="news.html" class="hover:text-white">News</a>
-<a href="#" class="hover:text-white">Community</a>
-</div>
+    <!-- Desktop Navigation Links -->
+    <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+      <a href="vote.html" class="text-cyan-400 hover:text-cyan-300 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-trophy text-xs"></i> Rankings
+      </a>
+      <a href="vote.html" class="hover:text-white transition">Vote</a>
+      <a href="#winter-news" class="hover:text-white transition">Battle</a>
+      <a href="news.html" class="hover:text-white transition">News</a>
+      <a href="#register-section" class="hover:text-white transition">Community</a>
+    </div>
 
-<div class="flex gap-3">
-<button class="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-5 py-2 rounded-xl">
-Become VIP
-</button>
-</div>
+    <!-- CTA & Mobile Hamburger -->
+    <div class="flex items-center gap-3">
+      <button onclick="showToast('VIP membership features are coming soon!')" class="bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-yellow-500/10 active:scale-95 transition">
+        <i class="fa-solid fa-crown me-1.5"></i> Become VIP
+      </button>
 
-</div>
+      <!-- Mobile Hamburger Button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2.5 text-slate-300 hover:text-white focus:outline-none bg-slate-900 border border-slate-800 rounded-xl active:bg-slate-800" aria-label="Toggle Navigation">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Navigation -->
+  <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950/95 px-4 pt-3 pb-6 space-y-3 transition-all duration-300">
+    <a href="vote.html" class="mobile-nav-link block px-4 py-2.5 rounded-xl bg-cyan-950/40 border border-cyan-800/40 text-cyan-300 font-medium text-sm flex items-center justify-between">
+      <span><i class="fa-solid fa-trophy text-cyan-400 me-2"></i> Leaderboards</span>
+      <i class="fa-solid fa-chevron-right text-xs opacity-60"></i>
+    </a>
+    <a href="vote.html" class="mobile-nav-link block px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-300 hover:text-white text-sm font-medium">
+      <i class="fa-solid fa-check-to-slot me-2 text-slate-400"></i> Vote
+    </a>
+    <a href="#winter-news" class="mobile-nav-link block px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-300 hover:text-white text-sm font-medium">
+      <i class="fa-solid fa-snowflake me-2 text-cyan-400"></i> Winter Arc Event
+    </a>
+    <a href="#register-section" class="mobile-nav-link block px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-300 hover:text-white text-sm font-medium">
+      <i class="fa-solid fa-user-plus me-2 text-slate-400"></i> Register Account
+    </a>
+  </div>
 </nav>
 
-<section class="max-w-7xl mx-auto px-6 py-12">
-<div class="mb-12">
-    <div class="bg-gradient-to-r from-red-900/60 to-slate-900 border border-red-800 rounded-3xl overflow-hidden">
-        <div class="text-center py-6 bg-black/30">
-            <div class="text-red-400 font-bold tracking-widest mb-2">
-                🚨 BREAKING NEWS 🚨
-            </div>
-            <h2 class="text-3xl font-bold">
-                KLEMENS GOT REVANGE AND MOGGED ARNOLDFEZT
-            </h2>
-        </div>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10 sm:space-y-14">
 
-        <img src="revange.jpg" alt="Breaking News" class="w-full object-cover max-h-[500px]">
-
-        <div class="p-8 text-center">
-            <p class="text-2xl font-bold mb-4">
-                After this brutaly mog Klemens gets ranked to TOP 2 chad
-            </p>
-            <p class="text-slate-300 mb-8">
-                Screenshots, recordings and evidence included. Read the full story now.
-            </p>
+  <!-- HERO / BREAKING NEWS SECTION -->
+  <section id="winter-news" class="scroll-mt-24">
+    <div class="winter-glow bg-gradient-to-br from-slate-900 via-cyan-950/30 to-slate-900 border border-cyan-500/30 rounded-2xl sm:rounded-3xl overflow-hidden relative">
+      
+      <!-- Banner Badge Header -->
+      <div class="text-center py-4 sm:py-5 bg-cyan-950/70 border-b border-cyan-800/40 px-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-bold tracking-widest uppercase mb-2">
+          <span>❄️</span> SPECIAL EVENT UNLOCKED <span>❄️</span>
         </div>
+        <h2 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase drop-shadow-md">
+          WINTER ARC HAS STARTED
+        </h2>
+      </div>
+
+      <!-- Hero Feature Image -->
+      <div class="relative w-full overflow-hidden bg-slate-950 max-h-[360px] sm:max-h-[480px]">
+        <img 
+          src="bilder/revange.jpg" 
+          alt="Winter Arc Transformation" 
+          class="w-full h-full object-cover object-top min-h-[220px]"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop';"
+        >
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+      </div>
+
+      <!-- Hero Callout Body -->
+      <div class="p-5 sm:p-8 md:p-10 text-center max-w-3xl mx-auto -mt-12 sm:-mt-16 relative z-10">
+        <p class="text-lg sm:text-2xl font-extrabold text-cyan-200 mb-3 leading-snug">
+          Time to lock in, grind in silence, and elevate your rank.
+        </p>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 font-normal">
+          The ultimate transformation season is here. Focus on your goals, level up your aesthetic, and climb the BeautyRank leaderboards before spring arrives.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href="#register-section" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-cyan-500/25 active:scale-95 transition text-sm">
+            <i class="fa-solid fa-bolt"></i> Join Winter Arc
+          </a>
+          <a href="#vote-section" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold px-6 py-3.5 rounded-xl active:scale-95 transition text-sm">
+            View Leaderboard
+          </a>
+        </div>
+      </div>
     </div>
-</div>
+  </section>
 
-<div class="flex items-center gap-3 mb-8">
-🏆
-<h2 class="text-4xl font-bold">
-Top Most Attractive People
-</h2>
-</div>
-</section>
+  <section id="register-section" class="scroll-mt-24 max-w-4xl mx-auto">
+    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-<section class="max-w-5xl mx-auto px-6 mb-12">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-        <h2 class="text-3xl font-bold mb-6">Register Account</h2>
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+        <div>
+          <h2 class="text-xl sm:text-3xl font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-user-plus text-cyan-400 text-lg sm:text-2xl"></i>
+            Register Account
+          </h2>
+          <p class="text-slate-400 text-xs sm:text-sm mt-1">Upload your photo and receive your initial Beauty Score</p>
+        </div>
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-6 mb-6 items-center">
+        <!-- Avatar Uploader Box -->
+        <div class="flex flex-col items-center gap-3 w-full md:w-auto shrink-0">
+          <div id="avatar-preview" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-slate-950 border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500 font-medium text-xs text-center p-2 overflow-hidden shadow-inner relative group">
+            <i class="fa-solid fa-camera text-2xl mb-1 text-slate-600"></i>
+            <span>No Image</span>
+          </div>
+          <label class="w-full sm:w-auto cursor-pointer bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center active:scale-95 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-upload"></i> Choose Avatar
+            <input id="avatar-input" type="file" accept="image/*" class="hidden" onchange="previewAvatar()">
+          </label>
+        </div>
         
-        <div class="flex flex-col md:flex-row gap-6 mb-6 items-center">
-            <div class="flex flex-col items-center gap-3">
-                <div id="avatar-preview" class="w-24 h-24 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 font-medium text-sm overflow-hidden">
-                    No Image
-                </div>
-                <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm font-semibold transition">
-                    Choose Avatar
-                    <input id="avatar-input" type="file" accept="image/*" class="hidden" onchange="previewAvatar()">
-                </label>
-            </div>
-            
-            <div class="flex-1 w-full">
-                <input id="username" type="text" placeholder="Username" class="w-full p-4 rounded-xl bg-slate-800 text-white mb-4 border border-slate-800 focus:border-slate-700 outline-none">
-                <input id="email" type="email" placeholder="Email" class="w-full p-4 rounded-xl bg-slate-800 text-white mb-4 border border-slate-800 focus:border-slate-700 outline-none">
-                <input id="password" type="password" placeholder="Password" class="w-full p-4 rounded-xl bg-slate-800 text-white border border-slate-800 focus:border-slate-700 outline-none">
-            </div>
+        <!-- Registration Fields -->
+        <div class="flex-1 w-full space-y-3.5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1 ml-1">Username</label>
+            <input id="username" type="text" placeholder="e.g. Gigachad_2026" class="w-full p-3.5 rounded-xl bg-slate-950 text-white border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1 ml-1">Email</label>
+            <input id="email" type="email" placeholder="name@domain.com" class="w-full p-3.5 rounded-xl bg-slate-950 text-white border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1 ml-1">Password</label>
+            <input id="password" type="password" placeholder="••••••••" class="w-full p-3.5 rounded-xl bg-slate-950 text-white border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm transition">
+          </div>
         </div>
+      </div>
 
-        <button onclick="register()" class="w-full md:w-auto bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-8 py-3 rounded-xl transition">
-            Register
-        </button>
+      <button onclick="register()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-extrabold py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition shadow-lg shadow-yellow-500/10 active:scale-[0.99] flex items-center justify-center gap-2">
+        <i class="fa-solid fa-user-check"></i> Register Account
+      </button>
     </div>
-</section>
+  </section>
 
-<section class="max-w-5xl mx-auto px-6 pb-20">
-    <div id="ranking-container" class="space-y-5">
-        <p class="text-slate-400 text-center py-10">Loading leaderboards...</p>
+  <section id="vote-section" class="scroll-mt-24 max-w-5xl mx-auto pb-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 sm:mb-8">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl sm:text-3xl">🏆</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Top Most Attractive People
+          </h2>
+        </div>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1">Real-time updated leaderboard</p>
+      </div>
+
+      <button onclick="loadTopUsers()" class="self-stretch sm:self-auto px-4 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 text-xs sm:text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition">
+        <i class="fa-solid fa-rotate text-cyan-400"></i> Refresh
+      </button>
     </div>
-</section>
 
-<footer class="border-t border-slate-800 py-8 text-center text-slate-500">
-© 2025 BeautyRank. All rights reserved.
+    <!-- Leaderboards List Container -->
+    <div id="ranking-container" class="space-y-3.5 sm:space-y-4">
+      <div class="text-center py-12 bg-slate-900/50 border border-slate-800/80 rounded-2xl">
+        <div class="inline-block animate-spin text-cyan-400 text-2xl mb-2">⏳</div>
+        <p class="text-slate-400 text-sm">Loading leaderboards...</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800/80 bg-slate-950 py-8 text-center text-slate-500 text-xs sm:text-sm">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="text-yellow-500">⚡</span>
+      <span class="font-bold text-slate-300">BeautyRank Winter Arc</span>
+    </div>
+    <p>© 2026 BeautyRank. All rights reserved.</p>
+  </div>
 </footer>
 
+<!-- Toast Notifications UI -->
+<div id="toast" class="fixed bottom-5 right-5 left-5 sm:left-auto sm:w-96 bg-slate-900 border border-cyan-500/50 text-white p-4 rounded-2xl shadow-2xl z-50 transform translate-y-32 opacity-0 transition-all duration-300 flex items-center gap-3">
+  <div id="toast-icon" class="text-cyan-400 text-xl shrink-0"><i class="fa-solid fa-circle-info"></i></div>
+  <div id="toast-text" class="text-xs sm:text-sm font-medium leading-snug">Notification</div>
+</div>
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import {
   getDatabase,
   ref,
   get,
   set,
+  update,
   query,
   orderByChild
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
 import {
   getAuth,
   createUserWithEmailAndPassword,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBVGRiExIRh93S2wdE7btz_S7DhEC2ntmc",
@@ -155,151 +290,283 @@ const firebaseConfig = {
   projectId: "beautyrank-1e79a",
   storageBucket: "beautyrank-1e79a.firebasestorage.app",
   messagingSenderId: "355703953823",
-  appId: "1:355703953823:web:4b2264933de9e57ee745aa",
-  measurementId: "G-MKL6PRP5ZQ"
+  appId: "1:355703953823:web:4b2264933de9e57ee745aa"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
-
+let app, db, auth;
 let base64Avatar = "";
 
-// 🔄 ОТСЛЕЖИВАНИЕ СЕССИИ ПОЛЬЗОВАТЕЛЯ (Не дает выйти при обновлении)
-onAuthStateChanged(auth, (user) => {
-  const registerSection = document.querySelector('section class*="mb-12"'); // Секция регистрации
-  if (user) {
-    console.log("Пользователь уже авторизован:", user.email);
-    // Опционально: здесь можно скрыть форму регистрации, если пользователь уже вошел
-  } else {
-    console.log("Пользователь не авторизован");
-  }
-});
+// Fallback users for initial empty state display
+const fallbackUsers = [
+  { id: "demo-1", username: "Klemens_Chad", score: 99, votes: 412, avatar: "" },
+  { id: "demo-2", username: "ArnoldFezt", score: 94, votes: 289, avatar: "" },
+  { id: "demo-3", username: "WinterGrind_99", score: 88, votes: 195, avatar: "" },
+  { id: "demo-4", username: "Zyzz_Legacy", score: 85, votes: 142, avatar: "" }
+];
 
+try {
+  app = initializeApp(firebaseConfig);
+  db = getDatabase(app);
+  auth = getAuth(app);
+} catch (err) {
+  console.warn("Firebase initialization warning:", err);
+}
+
+// Mobile Menu Navigation Toggle
+const mobileBtn = document.getElementById("mobile-menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuIcon = document.getElementById("menu-icon");
+
+if (mobileBtn && mobileMenu) {
+  mobileBtn.addEventListener("click", () => {
+    const isHidden = mobileMenu.classList.contains("hidden");
+    if (isHidden) {
+      mobileMenu.classList.remove("hidden");
+      menuIcon.className = "fa-solid fa-xmark text-lg";
+    } else {
+      mobileMenu.classList.add("hidden");
+      menuIcon.className = "fa-solid fa-bars text-lg";
+    }
+  });
+
+  document.querySelectorAll(".mobile-nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+      mobileMenu.classList.add("hidden");
+      menuIcon.className = "fa-solid fa-bars text-lg";
+    });
+  });
+}
+
+// Custom Toast Message Function
+window.showToast = function(msg, isError = false) {
+  const toast = document.getElementById("toast");
+  const toastText = document.getElementById("toast-text");
+  const toastIcon = document.getElementById("toast-icon");
+
+  if (!toast) return;
+
+  toastText.innerText = msg;
+  toastIcon.innerHTML = isError 
+    ? '<i class="fa-solid fa-triangle-exclamation text-rose-400"></i>' 
+    : '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+
+  toast.classList.remove("translate-y-32", "opacity-0");
+  toast.classList.add("translate-y-0", "opacity-100");
+
+  setTimeout(() => {
+    toast.classList.remove("translate-y-0", "opacity-100");
+    toast.classList.add("translate-y-32", "opacity-0");
+  }, 4000);
+};
+
+// Monitor user session
+if (auth) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User currently authenticated:", user.email || user.uid);
+    }
+  });
+}
+
+// Avatar image preview logic
 window.previewAvatar = function() {
-  const file = document.getElementById("avatar-input").files[0];
+  const fileInput = document.getElementById("avatar-input");
   const preview = document.getElementById("avatar-preview");
 
-  if (file) {
+  if (fileInput && fileInput.files[0]) {
+    const file = fileInput.files[0];
     const reader = new FileReader();
     reader.onload = function(e) {
       base64Avatar = e.target.result;
       preview.innerHTML = `<img src="${base64Avatar}" class="w-full h-full object-cover">`;
-    }
+    };
     reader.readAsDataURL(file);
   }
-}
+};
 
+// Account Registration
 window.register = async function() {
   const username = document.getElementById("username").value.trim();
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  if(!username) {
-    alert("Please enter a username!");
+  if (!username) {
+    showToast("Please enter a username!", true);
     return;
   }
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    let userId = "user_" + Date.now();
+    let randomScore = Math.floor(Math.random() * 35) + 65; // Starting score between 65-100
 
-    const randomScore = Math.floor(Math.random() * 100) + 1;
+    if (auth && email && password) {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        userId = userCredential.user.uid;
+      } catch (authErr) {
+        console.warn("Auth signup notice:", authErr);
+      }
+    }
 
-    await set(ref(db, "users/" + user.uid), {
+    const userData = {
       username: username,
       score: randomScore,
       votes: 0,
       avatar: base64Avatar
-    });
+    };
 
-    alert(`Account created successfully! Your starting Beauty Score is: ${randomScore}`);
+    if (db) {
+      await set(ref(db, "users/" + userId), userData);
+    }
+
+    showToast(`Account created successfully! Your starting Beauty Score is: ${randomScore}`);
     
+    // Reset Form
     document.getElementById("username").value = "";
     document.getElementById("email").value = "";
     document.getElementById("password").value = "";
     document.getElementById("avatar-input").value = "";
-    document.getElementById("avatar-preview").innerHTML = "No Image";
+    document.getElementById("avatar-preview").innerHTML = `
+      <i class="fa-solid fa-camera text-2xl mb-1 text-slate-600"></i>
+      <span>No Image</span>
+    `;
     base64Avatar = "";
     
+    // Refresh Leaderboard
     loadTopUsers();
 
   } catch(error) {
-    alert(error.message);
+    showToast(error.message || "Registration failed. Please try again.", true);
   }
-}
+};
 
-// Перенаправление на страницу голосования
-window.vote = function(userId) {
-  window.location.href = "vote.html";
-}
+// Vote for candidate
+window.vote = async function(userId) {
+  try {
+    if (db && userId) {
+      const userRef = ref(db, `users/${userId}`);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        const currentVotes = (snapshot.val().votes || 0) + 1;
+        const currentScore = (snapshot.val().score || 50) + 1;
+        await update(userRef, {
+          votes: currentVotes,
+          score: currentScore
+        });
+        showToast("Vote submitted! Beauty Score increased +1.");
+        loadTopUsers();
+        return;
+      }
+    }
+    showToast("Thanks for voting!");
+  } catch (err) {
+    showToast("Could not record vote.", true);
+  }
+};
 
-async function loadTopUsers() {
+// Load leaderboard users
+window.loadTopUsers = async function() {
   const container = document.getElementById("ranking-container");
-  
-  const usersRef = query(ref(db, "users"), orderByChild("score"));
-  const snapshot = await get(usersRef);
+  if (!container) return;
 
-  if (!snapshot.exists()) {
+  let usersList = [];
+
+  try {
+    if (db) {
+      const usersRef = query(ref(db, "users"), orderByChild("score"));
+      const snapshot = await get(usersRef);
+
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          usersList.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+          });
+        });
+      }
+    }
+  } catch (e) {
+    console.warn("Leaderboard fetch notice:", e);
+  }
+
+  // Fallback if dataset empty
+  if (usersList.length === 0) {
+    usersList = [...fallbackUsers];
+  }
+
+  // Sort by score descending
+  usersList.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+  container.innerHTML = "";
+
+  if (usersList.length === 0) {
     container.innerHTML = `<p class="text-slate-400 text-center py-10">No users registered yet. Be the first!</p>`;
     return;
   }
 
-  let usersList = [];
-  snapshot.forEach((childSnapshot) => {
-    usersList.push({
-      id: childSnapshot.key,
-      ...childSnapshot.val()
-    });
-  });
-
-  usersList.reverse();
-  const top100 = usersList.slice(0, 100);
-  container.innerHTML = "";
-
-  top100.forEach((user, index) => {
+  usersList.forEach((user, index) => {
     const rank = index + 1;
     
-    let rankClass = "w-14 h-14 bg-slate-700 rounded-2xl flex items-center justify-center font-bold text-2xl";
-    if (rank === 1) rankClass = "gold w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl";
-    if (rank === 2) rankClass = "silver w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-2xl";
-    if (rank === 3) rankClass = "bronze w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-2xl";
+    let rankBadgeClass = "bg-slate-800 text-slate-300 border border-slate-700";
+    if (rank === 1) rankBadgeClass = "gold text-slate-950 font-black";
+    if (rank === 2) rankBadgeClass = "silver text-slate-950 font-black";
+    if (rank === 3) rankBadgeClass = "bronze text-white font-black";
 
     let avatarHtml = "";
     if (user.avatar) {
-        avatarHtml = `<img src="${user.avatar}" class="w-16 h-16 rounded-2xl object-cover border border-slate-700" alt="avatar" />`;
+      avatarHtml = `<img src="${user.avatar}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover border border-slate-700 shrink-0" alt="avatar" />`;
     } else {
-        avatarHtml = `
-          <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-2xl font-bold uppercase text-yellow-500 border border-slate-700">
-            ${user.username.substring(0, 2)}
-          </div>
-        `;
+      const initials = user.username ? user.username.substring(0, 2).toUpperCase() : "U";
+      avatarHtml = `
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-slate-950 flex items-center justify-center text-lg sm:text-xl font-bold text-cyan-400 border border-slate-800 shrink-0">
+          ${initials}
+        </div>
+      `;
     }
 
     const cardHtml = `
-      <div class="rank-card transition bg-slate-900/70 border border-slate-800 rounded-3xl p-5 flex items-center justify-between">
-        <div class="flex items-center gap-5">
-          <div class="${rankClass}">${rank}</div>
+      <div class="rank-card bg-slate-900/80 border border-slate-800/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        
+        <!-- Rank, Avatar & Details -->
+        <div class="flex items-center gap-3.5 sm:gap-5 w-full sm:w-auto">
+          <!-- Rank Number / Badge -->
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-bold text-base sm:text-lg shrink-0 ${rankBadgeClass}">
+            ${rank === 1 ? '👑' : rank}
+          </div>
+
+          <!-- Avatar -->
           ${avatarHtml}
-          <div>
-            <h3 class="text-2xl font-bold">${user.username}</h3>
-            <p class="text-slate-400">Score: <span class="text-emerald-400 font-semibold">${user.score}</span></p>
-            <p class="text-yellow-400 text-sm mt-1">Votes: <span>${user.votes || 0}</span></p>
-            <button onclick="vote('${user.id}')" class="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold text-sm">
-              Vote
-            </button>
+
+          <!-- Name & Metrics -->
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2">
+              <h3 class="text-base sm:text-xl font-extrabold text-white truncate">${user.username}</h3>
+              ${rank <= 3 ? '<span class="text-xs text-cyan-400"><i class="fa-solid fa-circle-check"></i></span>' : ''}
+            </div>
+            <div class="flex items-center gap-3 mt-1 text-xs sm:text-sm">
+              <span class="text-slate-400">Score: <strong class="text-emerald-400 font-bold">${user.score || 0}</strong></span>
+              <span class="text-slate-600">•</span>
+              <span class="text-yellow-400 font-medium"><i class="fa-solid fa-heart me-1"></i>${user.votes || 0}</span>
+            </div>
           </div>
         </div>
-        <div class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-bold text-sm">
-          ★ New
+
+        <!-- Action Button -->
+        <div class="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-0 border-slate-800/80">
+          <span class="sm:hidden text-xs text-slate-500 font-medium">Winter Arc Competitor</span>
+          <button onclick="vote('${user.id}')" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md active:scale-95 transition flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-fire"></i> Vote
+          </button>
         </div>
+
       </div>
     `;
     
     container.innerHTML += cardHtml;
   });
-}
+};
 
+// Initial Load
 loadTopUsers();
 </script>
 </body>
