@@ -3,122 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BeautyRank News</title>
-
+<title>BeautyRank — News</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
 <style>
-body{
-    background: radial-gradient(circle at top,#0f172a 0%,#020617 60%);
-}
+  body {
+    background: radial-gradient(circle at top, #0f172a 0%, #020617 60%);
+  }
+
+  .glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 </style>
 </head>
+<body class="text-white min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-<body class="text-white min-h-screen">
-
-<!-- NAVBAR -->
-<nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-yellow-500"></div>
-            <h1 class="text-2xl font-bold">BeautyRank</h1>
+  <!-- NAVBAR -->
+  <nav class="border-b border-slate-800/80 bg-slate-950/80 glass sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-cyan-500/20">
+          B
         </div>
+        <span class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+          BeautyRank
+        </span>
+      </div>
 
-        <div class="flex gap-8 text-slate-300">
-            <a href="index.html" class="hover:text-white">Rankings</a>
-            <a href="news.html" class="hover:text-white">News</a>
-        </div>
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-300">
+        <a href="index.html" class="hover:text-cyan-400 transition">Rankings</a>
+        <a href="vote.html" class="hover:text-cyan-400 transition">Vote</a>
+        <a href="#" class="hover:text-cyan-400 transition">Battle</a>
+        <a href="news.html" class="text-cyan-400 transition font-bold">News</a>
+        <a href="#" class="hover:text-cyan-400 transition">Community</a>
+      </div>
 
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-300 hover:text-white rounded-lg focus:outline-none">
+        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <a href="index.html" class="hidden md:inline-block bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition">
+        Join Winter Arc
+      </a>
     </div>
-</nav>
 
-<!-- NEWS PAGE -->
-<section class="max-w-7xl mx-auto px-6 py-12">
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-slate-950/95 px-6 py-4 flex flex-col gap-3 text-slate-300 font-semibold">
+      <a href="index.html" class="py-2 hover:text-cyan-400">Rankings</a>
+      <a href="vote.html" class="py-2 hover:text-cyan-400">Vote</a>
+      <a href="#" class="py-2 hover:text-cyan-400">Battle</a>
+      <a href="news.html" class="py-2 text-cyan-400 font-bold">News</a>
+      <a href="#" class="py-2 hover:text-cyan-400">Community</a>
+    </div>
+  </nav>
 
-    <h1 class="text-5xl font-bold mb-10">
-        📰 News
-    </h1>
+  <!-- MAIN CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
+    
+    <!-- PAGE TITLE -->
+    <div class="mb-8 text-center sm:text-left">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3">
+        📰 Official Updates
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight">BeautyRank News</h1>
+      <p class="text-slate-400 text-sm sm:text-base mt-2">Latest leaderboard shifts, community events, and Winter Arc updates.</p>
+    </div>
 
-    <div class="bg-slate-900/70 border border-red-800 rounded-3xl overflow-hidden mb-12">
-
+    <!-- MAIN BREAKING NEWS CARD -->
+    <div class="bg-gradient-to-br from-cyan-950/40 via-slate-900/80 to-slate-950 border border-cyan-500/30 rounded-3xl overflow-hidden mb-12 shadow-2xl glass">
+      <div class="relative">
         <img
-            src="revange.jpg"
-            class="w-full max-h-[550px] object-cover"
-            alt="Latest News"
+          src="winterarc.jpg"
+          class="w-full max-h-[450px] sm:max-h-[550px] object-cover"
+          alt="Winter Arc Main News"
         >
+        <div class="absolute top-4 left-4 bg-cyan-500 text-slate-950 font-black px-3 py-1 rounded-lg text-xs uppercase tracking-wider shadow-lg">
+          ❄️ WINTER ARC SPECIAL
+        </div>
+      </div>
 
-        <div class="p-8">
-
-            <div class="text-red-400 font-bold mb-2">
-                BREAKING NEWS
-            </div>
-
-            <h3 class="text-4xl font-bold mb-4">
-               KLEMENS GOT REVANGE AND MOGGED ARNOLDFEZT
-            </h3>
-
-            <p class="text-slate-300 mb-6">
-                Screenshots, recordings and evidence included.
-            </p>
-
+      <div class="p-6 sm:p-10">
+        <div class="text-cyan-400 font-bold text-xs sm:text-sm tracking-widest uppercase mb-2">
+          SEASONAL EVENT UNLOCKED
         </div>
 
+        <h2 class="text-2xl sm:text-4xl font-black mb-4 leading-tight">
+          WINTER ARC HAS STARTED: LOCK IN & ELEVATE YOUR RANK
+        </h2>
+
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+          The transformation season is officially live. Track real-time leaderboards, vote daily, and climb your way to the top of the BeautyRank ratings before spring arrives.
+        </p>
+
+        <a href="index.html" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold px-6 py-3 rounded-2xl text-sm transition shadow-lg shadow-cyan-500/20">
+          View Rankings & Register
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
     </div>
 
-    <!-- TRENDING -->
-    <h2 class="text-3xl font-bold mb-6 text-yellow-400">
-        Trending News
-    </h2>
+    <!-- TRENDING SECTION -->
+    <div class="mb-6 flex items-center gap-3">
+      <span class="text-2xl">🔥</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Trending News</h2>
+    </div>
 
     <div class="grid md:grid-cols-2 gap-6">
 
-        <!-- CARD 1 -->
-        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl overflow-hidden">
-
-            <img
-                src="trio.jpg"
-                class="w-full h-56 object-cover"
-                alt=""
-            >
-
-            <div class="p-5">
-                <h3 class="font-bold text-xl mb-2">
-                    TOP 3 Chads Hold Emergency Meeting to Decide the True #1 Chad
-                </h3>
-
-                <p class="text-slate-400">
-                    Community reacts to the latest ranking update.
-                </p>
-            </div>
-
+      <!-- CARD 1 (ZETA AT OKTOBERFEST) -->
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-3xl overflow-hidden glass hover:border-cyan-500/40 transition group">
+        <div class="overflow-hidden">
+          <img
+            src="zeta.jpg"
+            class="w-full h-52 sm:h-60 object-cover group-hover:scale-105 transition duration-300"
+            alt="Zeta at Oktoberfest"
+          >
         </div>
-
-        <!-- CARD 2 -->
-        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl overflow-hidden">
-
-            <img
-                src="nick.jpg"
-                class="w-full h-56 object-cover"
-                alt=""
-            >
-
-            <div class="p-5">
-                <h3 class="font-bold text-xl mb-2">
-                    Nick gets ranked to #6 Chad
-                </h3>
-
-                <p class="text-slate-400">
-                    Massive voting increase this week.
-                </p>
-            </div>
-
+        <div class="p-6">
+          <div class="text-xs font-bold text-yellow-400 mb-2">👑 #1 CHAD WORLDWIDE</div>
+          <h3 class="font-extrabold text-lg sm:text-xl mb-2 text-slate-100 group-hover:text-cyan-400 transition">
+            Zeta Top #1 Chad in the World Spotted in Germany at Oktoberfest
+          </h3>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            The world's undisputed top Chad made a surprise appearance at Germany's iconic festival, taking over the crowds and setting new aura standards.
+          </p>
         </div>
+      </div>
+
+      <!-- CARD 2 (BISCOFF VS WHITE BUENO DEBLOAT DEBATE) -->
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-3xl overflow-hidden glass hover:border-cyan-500/40 transition group">
+        <div class="overflow-hidden">
+          <img
+            src="bueno.jpeg"
+            class="w-full h-52 sm:h-60 object-cover group-hover:scale-105 transition duration-300"
+            alt="Debloat Food Debate"
+          >
+        </div>
+        <div class="p-6">
+          <div class="text-xs font-bold text-cyan-400 mb-2">DIET & AESTHETICS DEBATE</div>
+          <h3 class="font-extrabold text-lg sm:text-xl mb-2 text-slate-100 group-hover:text-cyan-400 transition">
+            What is Better to Debloat: Biscoff or White Bueno?
+          </h3>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            The community debates sodium levels, sugar intake, and water retention strategy during Winter Arc cuts.
+          </p>
+        </div>
+      </div>
 
     </div>
 
-</section>
+  </main>
 
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800/80 py-8 text-center text-slate-500 text-xs sm:text-sm mt-12">
+    © 2026 BeautyRank — Winter Arc Edition. All rights reserved.
+  </footer>
+
+  <!-- MOBILE MENU SCRIPT -->
+  <script>
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+  </script>
 </body>
 </html>
